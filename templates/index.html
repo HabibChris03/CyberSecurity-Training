@@ -1,25 +1,61 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Welcome to the Cyber Security Learning Lab</h2>
-<p>Hello <strong>{{ user }}</strong>! Choose a module from the navigation bar above to start testing and analyzing web vulnerabilities.</p>
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Welcome, {{ user }}! 👋</h2>
+        <p class="card-subtitle">Select a training module below to test, analyze, and learn how to remediate web application security vulnerabilities.</p>
+    </div>
 
-<h3>Available Student Challenges:</h3>
-<ul>
-    <li>
-        <strong>1. SQL Injection (SQLi) - <span class="badge">Authentication Bypass</span></strong><br>
-        Navigate to the Login page. Try logging in as administrator without knowing the password.
-    </li>
-    <li style="margin-top: 1rem;">
-        <strong>2. Cross-Site Scripting (XSS) - <span class="badge">Reflected XSS</span></strong><br>
-        Navigate to the Search page. Test how input parameters are handled when rendered directly to the screen.
-    </li>
-    <li style="margin-top: 1rem;">
-        <strong>3. Command Injection - <span class="badge">Remote Command Execution</span></strong><br>
-        Navigate to the Ping page. See if you can execute arbitrary system commands alongside the ping utility.
-    </li>
-    <li style="margin-top: 1rem;">
-        <strong>4. Insecure Direct Object Reference (IDOR) - <span class="badge">Access Control</span></strong><br>
-        Navigate to the Profile page. Try viewing other users' private profile data by tampering with request parameters.
-    </li>
-</ul>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+        
+        <!-- Module 1 -->
+        <div style="background: rgba(31, 41, 55, 0.4); border: 1px solid var(--card-border); border-radius: 10px; padding: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <h3 style="font-size: 1.1rem; color: #fff;">1. SQL Injection</h3>
+                <span class="badge badge-danger">Critical</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem;">
+                Bypass authentication mechanisms by exploiting unescaped database string formatting.
+            </p>
+            <a href="/login" class="btn" style="width: 100%; text-decoration: none; padding: 0.6rem;">Launch Module &rarr;</a>
+        </div>
+
+        <!-- Module 2 -->
+        <div style="background: rgba(31, 41, 55, 0.4); border: 1px solid var(--card-border); border-radius: 10px; padding: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <h3 style="font-size: 1.1rem; color: #fff;">2. Reflected XSS</h3>
+                <span class="badge badge-warning">High</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem;">
+                Inject client-side scripts into web pages rendered directly without HTML sanitization.
+            </p>
+            <a href="/search" class="btn" style="width: 100%; text-decoration: none; padding: 0.6rem;">Launch Module &rarr;</a>
+        </div>
+
+        <!-- Module 3 -->
+        <div style="background: rgba(31, 41, 55, 0.4); border: 1px solid var(--card-border); border-radius: 10px; padding: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <h3 style="font-size: 1.1rem; color: #fff;">3. Command Injection</h3>
+                <span class="badge badge-danger">Critical</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem;">
+                Execute arbitrary operating system commands on the host server via unsanitized inputs.
+            </p>
+            <a href="/ping" class="btn" style="width: 100%; text-decoration: none; padding: 0.6rem;">Launch Module &rarr;</a>
+        </div>
+
+        <!-- Module 4 -->
+        <div style="background: rgba(31, 41, 55, 0.4); border: 1px solid var(--card-border); border-radius: 10px; padding: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <h3 style="font-size: 1.1rem; color: #fff;">4. IDOR Flaw</h3>
+                <span class="badge badge-info">Medium</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem;">
+                Access confidential user profile records by manipulating object identifiers in URL queries.
+            </p>
+            <a href="/profile" class="btn" style="width: 100%; text-decoration: none; padding: 0.6rem;">Launch Module &rarr;</a>
+        </div>
+
+    </div>
+</div>
 {% endblock %}

@@ -1,24 +1,42 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Lab Module 3: Command Injection Diagnostics</h2>
-<p>Goal: Execute additional system shell commands using input string chaining.</p>
-
-<form method="POST">
-    <div class="form-group">
-        <label for="host">Target Host or IP Address:</label>
-        <input type="text" id="host" name="host" placeholder="127.0.0.1">
+<div class="card">
+    <div class="card-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 class="card-title">💻 Module 3: Command Injection</h2>
+            <span class="badge badge-danger">Remote RCE</span>
+        </div>
+        <p class="card-subtitle">Execute arbitrary system shell commands alongside network diagnostics.</p>
     </div>
-    <button type="submit">Run Ping Diagnostic</button>
-</form>
 
-{% if output %}
-    <h3 style="margin-top: 1.5rem;">Diagnostic Output:</h3>
-    <pre>{{ output }}</pre>
-{% endif %}
+    <form method="POST">
+        <div class="form-group">
+            <label for="host">Target IP Address or Hostname</label>
+            <div style="display: flex; gap: 0.75rem;">
+                <input type="text" id="host" name="host" placeholder="127.0.0.1" style="flex: 1;" required>
+                <button type="submit" class="btn">Run Diagnostic</button>
+            </div>
+        </div>
+    </form>
 
-<div style="margin-top: 2rem; background: #181824; padding: 1rem; border-radius: 4px;">
-    <h4>💡 Learning Hint:</h4>
-    <p>On Windows, try payload: <code>127.0.0.1 & dir</code></p>
-    <p>On Linux, try payload: <code>127.0.0.1 ; whoami</code> or <code>127.0.0.1 | ls -la</code></p>
+    {% if output %}
+        <div style="margin-top: 1.5rem;">
+            <h3 style="font-size: 0.95rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase;">
+                Diagnostic Output Terminal
+            </h3>
+            <pre>{{ output }}</pre>
+        </div>
+    {% endif %}
+
+    <div class="hint-box">
+        <h4>💡 Learning Hint & Lab Payload</h4>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+            User input is concatenated directly into system shell calls:
+        </p>
+        <p style="font-size: 0.88rem; color: var(--text-muted);">
+            Windows: <code>127.0.0.1 & dir</code><br>
+            Linux/macOS: <code>127.0.0.1 ; whoami</code> or <code>127.0.0.1 | ls -la</code>
+        </p>
+    </div>
 </div>
 {% endblock %}

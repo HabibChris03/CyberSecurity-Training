@@ -1,46 +1,54 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Lab Module 2: Reflected XSS Search</h2>
-<p>Goal: Trigger an alert dialog using inline JavaScript in the query parameter.</p>
-
-<form method="GET">
-    <div class="form-group">
-        <label for="q">Search Product Catalog:</label>
-        <input type="text" id="q" name="q" value="{{ query }}" placeholder="Try searching or entering JS payload...">
+<div class="card">
+    <div class="card-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 class="card-title">🔍 Module 2: Reflected XSS</h2>
+            <span class="badge badge-warning">Script Injection</span>
+        </div>
+        <p class="card-subtitle">Test how unescaped user input reflects inline JavaScript in the victim's browser.</p>
     </div>
-    <button type="submit">Search</button>
-</form>
 
-{% if query %}
-    <div style="margin-top: 1.5rem;">
-        <h3>Search Results for: <em>{{ query | safe }}</em></h3>
-        {% if products %}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for p in products %}
-                    <tr>
-                        <td>{{ p[0] }}</td>
-                        <td>{{ p[1] }}</td>
-                        <td>${{ p[2] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>No products found matching your search.</p>
-        {% endif %}
+    <form method="GET" style="display: flex; gap: 0.75rem;">
+        <input type="text" id="q" name="q" value="{{ query }}" placeholder="Search product catalog or enter script payload..." style="flex: 1;">
+        <button type="submit" class="btn">Search</button>
+    </form>
+
+    {% if query %}
+        <div style="margin-top: 2rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;">
+                Results for: <span style="color: var(--accent-green);">{{ query | safe }}</span>
+            </h3>
+            {% if products %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in products %}
+                        <tr>
+                            <td style="font-weight: 600;">{{ p[0] }}</td>
+                            <td style="color: var(--text-muted);">{{ p[1] }}</td>
+                            <td style="color: var(--accent-green); font-family: 'Fira Code', monospace;">${{ "%.2f"|format(p[2]) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p style="color: var(--text-muted); font-size: 0.9rem;">No products match your query string.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <div class="hint-box">
+        <h4>💡 Learning Hint & Lab Payload</h4>
+        <p style="font-size: 0.88rem; color: var(--text-muted);">
+            Try searching: <code>&lt;script&gt;alert('Reflected XSS Success!')&lt;/script&gt;</code> or <code>&lt;img src=x onerror=alert('XSS')&gt;</code>
+        </p>
     </div>
-{% endif %}
-
-<div style="margin-top: 2rem; background: #181824; padding: 1rem; border-radius: 4px;">
-    <h4>💡 Learning Hint:</h4>
-    <p>Try searching for: <code>&lt;script&gt;alert('Reflected XSS Success!')&lt;/script&gt;</code> or <code>&lt;img src=x onerror=alert('XSS')&gt;</code></p>
 </div>
 {% endblock %}
