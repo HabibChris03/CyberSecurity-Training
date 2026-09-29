@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Lab Module 4: User Profile (IDOR Check)</h2>
+<p>Goal: Access other users' confidential profile records by altering the <code>user_id</code> URL parameter.</p>
+
+{% if user_data %}
+    <div style="background: #181824; padding: 1.5rem; border-radius: 6px; border: 1px solid #33334d;">
+        <h3>User Profile Record #{{ user_data[0] }}</h3>
+        <p><strong>Username:</strong> {{ user_data[1] }}</p>
+        <p><strong>Role:</strong> {{ user_data[2] }}</p>
+        <p style="color: #00ff88;"><strong>Confidential Secret / Flag:</strong> {{ user_data[3] }}</p>
+    </div>
+{% else %}
+    <p>User record not found.</p>
+{% endif %}
+
+<div style="margin-top: 2rem; background: #181824; padding: 1rem; border-radius: 4px;">
+    <h4>💡 Learning Hint:</h4>
+    <p>Check the current URL structure in your browser address bar: <code>/profile?user_id=1</code></p>
+    <p>Try changing <code>user_id=1</code> to <code>user_id=2</code> or <code>user_id=3</code> to test access control boundaries.</p>
+</div>
+{% endblock %}

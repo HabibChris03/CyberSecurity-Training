@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Welcome to the Cyber Security Learning Lab</h2>
+<p>Hello <strong>{{ user }}</strong>! Choose a module from the navigation bar above to start testing and analyzing web vulnerabilities.</p>
+
+<h3>Available Student Challenges:</h3>
+<ul>
+    <li>
+        <strong>1. SQL Injection (SQLi) - <span class="badge">Authentication Bypass</span></strong><br>
+        Navigate to the Login page. Try logging in as administrator without knowing the password.
+    </li>
+    <li style="margin-top: 1rem;">
+        <strong>2. Cross-Site Scripting (XSS) - <span class="badge">Reflected XSS</span></strong><br>
+        Navigate to the Search page. Test how input parameters are handled when rendered directly to the screen.
+    </li>
+    <li style="margin-top: 1rem;">
+        <strong>3. Command Injection - <span class="badge">Remote Command Execution</span></strong><br>
+        Navigate to the Ping page. See if you can execute arbitrary system commands alongside the ping utility.
+    </li>
+    <li style="margin-top: 1rem;">
+        <strong>4. Insecure Direct Object Reference (IDOR) - <span class="badge">Access Control</span></strong><br>
+        Navigate to the Profile page. Try viewing other users' private profile data by tampering with request parameters.
+    </li>
+</ul>
+{% endblock %}

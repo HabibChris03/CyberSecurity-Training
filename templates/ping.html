@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Lab Module 3: Command Injection Diagnostics</h2>
+<p>Goal: Execute additional system shell commands using input string chaining.</p>
+
+<form method="POST">
+    <div class="form-group">
+        <label for="host">Target Host or IP Address:</label>
+        <input type="text" id="host" name="host" placeholder="127.0.0.1">
+    </div>
+    <button type="submit">Run Ping Diagnostic</button>
+</form>
+
+{% if output %}
+    <h3 style="margin-top: 1.5rem;">Diagnostic Output:</h3>
+    <pre>{{ output }}</pre>
+{% endif %}
+
+<div style="margin-top: 2rem; background: #181824; padding: 1rem; border-radius: 4px;">
+    <h4>💡 Learning Hint:</h4>
+    <p>On Windows, try payload: <code>127.0.0.1 & dir</code></p>
+    <p>On Linux, try payload: <code>127.0.0.1 ; whoami</code> or <code>127.0.0.1 | ls -la</code></p>
+</div>
+{% endblock %}
