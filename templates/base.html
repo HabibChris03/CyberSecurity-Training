@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cybersecurity Educational Vulnerable Lab</title>
+    <title>Cybersecurity Educational Sandbox</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: #111827;
-            --card-border: #1f293d;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
+            --bg-color: #060913;
+            --card-bg: rgba(15, 23, 42, 0.75);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-border-glow: rgba(16, 185, 129, 0.3);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
             --accent-green: #10b981;
-            --accent-green-glow: rgba(16, 185, 129, 0.2);
+            --accent-green-glow: rgba(16, 185, 129, 0.25);
+            --accent-purple: #8b5cf6;
             --accent-red: #ef4444;
             --accent-amber: #f59e0b;
             --accent-blue: #3b82f6;
-            --code-bg: #030712;
-            --input-bg: #1f2937;
+            --code-bg: #020617;
+            --input-bg: rgba(30, 41, 59, 0.6);
         }
 
         * {
@@ -30,19 +32,35 @@
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.08) 0px, transparent 50%);
+            background-attachment: fixed;
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             line-height: 1.6;
+            overflow-y: scroll;
+        }
+
+        /* Subtle Fade In Animation */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade {
+            animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         /* Header Navigation */
         header {
-            background-color: rgba(17, 24, 39, 0.8);
-            backdrop-filter: blur(12px);
+            background-color: rgba(6, 9, 19, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--card-border);
             padding: 1rem 2rem;
             position: sticky;
@@ -56,68 +74,84 @@
         .brand {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.85rem;
             text-decoration: none;
+            transition: transform 0.2s ease;
+        }
+
+        .brand:hover {
+            transform: scale(1.02);
         }
 
         .brand-icon {
-            background: linear-gradient(135deg, #10b981, #059669);
-            width: 38px;
-            height: 38px;
-            border-radius: 8px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: 0 0 15px var(--accent-green-glow);
+            font-size: 1.25rem;
+            box-shadow: 0 0 20px var(--accent-green-glow);
         }
 
         .brand-title {
-            font-size: 1.15rem;
-            font-weight: 700;
+            font-size: 1.2rem;
+            font-weight: 800;
             color: var(--text-main);
-            letter-spacing: -0.02em;
+            letter-spacing: -0.03em;
         }
 
         .brand-title span {
-            color: var(--accent-green);
+            background: linear-gradient(135deg, #10b981, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         nav {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 0.35rem;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
         }
 
         nav a {
             color: var(--text-muted);
             text-decoration: none;
-            padding: 0.5rem 0.85rem;
-            border-radius: 6px;
-            font-weight: 500;
-            font-size: 0.9rem;
+            padding: 0.5rem 0.9rem;
+            border-radius: 7px;
+            font-weight: 600;
+            font-size: 0.88rem;
             transition: all 0.2s ease;
         }
 
-        nav a:hover, nav a.active {
+        nav a:hover {
             color: var(--text-main);
-            background-color: var(--input-bg);
+            background-color: rgba(255, 255, 255, 0.06);
+        }
+
+        nav a.active-link {
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.05));
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
 
         nav a.logout-btn {
             color: #f87171;
-            background-color: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            margin-left: 0.5rem;
+            background-color: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.25);
         }
 
         nav a.logout-btn:hover {
-            background-color: rgba(239, 68, 68, 0.2);
+            background-color: rgba(239, 68, 68, 0.25);
         }
 
         /* Layout Container */
         .container {
-            max-width: 960px;
+            max-width: 980px;
             width: 100%;
             margin: 2.5rem auto;
             padding: 0 1.5rem;
@@ -126,100 +160,107 @@
 
         /* Alert Banner */
         .alert-banner {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            border-radius: 10px;
-            padding: 0.9rem 1.25rem;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(245, 158, 11, 0.03));
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            border-radius: 12px;
+            padding: 1rem 1.35rem;
             margin-bottom: 2rem;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            color: #fbbf24;
-            font-size: 0.88rem;
+            gap: 0.85rem;
+            color: #fcd34d;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
-        /* Card Container */
+        /* Card Container with Glassmorphism */
         .card {
-            background-color: var(--card-bg);
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            margin-bottom: 1.5rem;
+            border-radius: 16px;
+            padding: 2.25rem;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+            margin-bottom: 1.75rem;
+            transition: border-color 0.3s ease;
         }
 
         .card-header {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.75rem;
             border-bottom: 1px solid var(--card-border);
-            padding-bottom: 1rem;
+            padding-bottom: 1.25rem;
         }
 
         .card-title {
-            font-size: 1.4rem;
-            font-weight: 700;
+            font-size: 1.45rem;
+            font-weight: 800;
             color: var(--text-main);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem;
+            letter-spacing: -0.02em;
         }
 
         .card-subtitle {
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             color: var(--text-muted);
-            margin-top: 0.25rem;
+            margin-top: 0.35rem;
         }
 
         /* Form Controls */
         .form-group {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.35rem;
         }
 
         label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
+            margin-bottom: 0.55rem;
+            font-weight: 600;
             font-size: 0.88rem;
-            color: var(--text-muted);
+            color: #cbd5e1;
         }
 
         input[type="text"], input[type="password"] {
             width: 100%;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
+            padding: 0.85rem 1.1rem;
+            border-radius: 10px;
             border: 1px solid var(--card-border);
             background-color: var(--input-bg);
             color: var(--text-main);
             font-family: inherit;
             font-size: 0.95rem;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         input[type="text"]:focus, input[type="password"]:focus {
             outline: none;
             border-color: var(--accent-green);
-            box-shadow: 0 0 0 3px var(--accent-green-glow);
+            background-color: rgba(30, 41, 59, 0.9);
+            box-shadow: 0 0 0 4px var(--accent-green-glow);
         }
 
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            background: linear-gradient(135deg, #10b981, #059669);
+            gap: 0.6rem;
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
             color: #ffffff;
-            font-weight: 600;
-            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            padding: 0.85rem 1.75rem;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 0.95rem;
-            transition: transform 0.1s ease, box-shadow 0.2s ease;
-            box-shadow: 0 4px 12px var(--accent-green-glow);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px var(--accent-green-glow);
         }
 
         .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            filter: brightness(1.1);
         }
 
         .btn:active {
@@ -228,11 +269,13 @@
 
         /* Badges */
         .badge {
-            display: inline-block;
-            padding: 0.2rem 0.6rem;
-            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.25rem 0.7rem;
+            border-radius: 20px;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
@@ -249,19 +292,21 @@
         pre {
             background-color: var(--code-bg);
             border: 1px solid var(--card-border);
-            padding: 1.25rem;
-            border-radius: 8px;
+            padding: 1.35rem;
+            border-radius: 10px;
             overflow-x: auto;
             color: #34d399;
-            font-size: 0.88rem;
+            font-size: 0.9rem;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
         }
 
         code {
             background-color: var(--code-bg);
             color: #34d399;
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            font-size: 0.85rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.88rem;
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
         /* Tables */
@@ -269,54 +314,61 @@
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
-            margin-top: 1rem;
+            margin-top: 1.25rem;
             border: 1px solid var(--card-border);
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
         }
 
         th, td {
-            padding: 0.85rem 1rem;
+            padding: 0.95rem 1.15rem;
             text-align: left;
             border-bottom: 1px solid var(--card-border);
         }
 
         th {
-            background-color: rgba(31, 41, 55, 0.5);
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            background-color: rgba(30, 41, 59, 0.7);
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: #94a3b8;
             text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         tr:last-child td {
             border-bottom: none;
         }
 
+        tr:hover td {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
         /* Hint Box */
         .hint-box {
-            background: rgba(17, 24, 39, 0.6);
-            border: 1px dashed var(--card-border);
-            border-radius: 8px;
-            padding: 1.25rem;
-            margin-top: 2rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px dashed rgba(245, 158, 11, 0.3);
+            border-radius: 12px;
+            padding: 1.35rem;
+            margin-top: 2.25rem;
         }
 
         .hint-box h4 {
-            color: var(--accent-amber);
+            color: #fbbf24;
             font-size: 0.95rem;
-            margin-bottom: 0.5rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.45rem;
         }
 
         footer {
             text-align: center;
-            padding: 1.5rem;
+            padding: 1.75rem;
             color: var(--text-muted);
             font-size: 0.85rem;
             border-top: 1px solid var(--card-border);
+            margin-top: auto;
         }
     </style>
 </head>
@@ -338,11 +390,11 @@
         </nav>
     </header>
 
-    <div class="container">
+    <div class="container animate-fade">
         <div class="alert-banner">
-            <span style="font-size: 1.2rem;">⚠️</span>
+            <span style="font-size: 1.3rem;">⚡</span>
             <div>
-                <strong>Educational Sandbox Environment:</strong> Intentionally vulnerable web application designed for classroom learning and local cybersecurity practice.
+                <strong>Cybersecurity Educational Lab:</strong> Intentionally vulnerable application designed for local student practice and security testing.
             </div>
         </div>
         
@@ -350,7 +402,7 @@
     </div>
 
     <footer>
-        Cybersecurity Training Laboratory &bull; Running locally on 127.0.0.1
+        Cybersecurity Training Laboratory &bull; Running locally on <code>127.0.0.1:5000</code>
     </footer>
 </body>
 </html>

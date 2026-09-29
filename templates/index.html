@@ -1,59 +1,71 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="card">
-    <div class="card-header">
-        <h2 class="card-title">Welcome, {{ user }}! 👋</h2>
-        <p class="card-subtitle">Select a training module below to test, analyze, and learn how to remediate web application security vulnerabilities.</p>
+    <div class="card-header" style="border-bottom: none; padding-bottom: 0; margin-bottom: 2rem;">
+        <h2 class="card-title" style="font-size: 1.75rem;">Welcome to Cyber Security Lab 👋</h2>
+        <p class="card-subtitle" style="font-size: 1rem;">Select a challenge module below to explore vulnerability exploitation and remediation.</p>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
         
         <!-- Module 1 -->
-        <div style="background: rgba(31, 41, 55, 0.4); border: 1px solid var(--card-border); border-radius: 10px; padding: 1.25rem;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                <h3 style="font-size: 1.1rem; color: #fff;">1. SQL Injection</h3>
-                <span class="badge badge-danger">Critical</span>
+        <div style="background: rgba(30, 41, 59, 0.4); border: 1px solid var(--card-border); border-radius: 14px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s ease;" onmouseover="this.style.borderColor='rgba(239, 68, 68, 0.4)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--card-border)'; this.style.transform='translateY(0)'">
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div style="font-size: 1.5rem;">🔑</div>
+                    <span class="badge badge-danger">Critical</span>
+                </div>
+                <h3 style="font-size: 1.15rem; color: #fff; font-weight: 700; margin-bottom: 0.5rem;">1. SQL Injection</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.5;">
+                    Bypass authentication controls by injecting malicious SQL statements into database query inputs.
+                </p>
             </div>
-            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem;">
-                Bypass authentication mechanisms by exploiting unescaped database string formatting.
-            </p>
-            <a href="/login" class="btn" style="width: 100%; text-decoration: none; padding: 0.6rem;">Launch Module &rarr;</a>
+            <a href="/login" class="btn" style="width: 100%; text-decoration: none; padding: 0.75rem; background: linear-gradient(135deg, rgba(239,68,68,0.2), rgba(239,68,68,0.05)); border: 1px solid rgba(239,68,68,0.3); color: #f87171; box-shadow: none;">Launch Module &rarr;</a>
         </div>
 
         <!-- Module 2 -->
-        <div style="background: rgba(31, 41, 55, 0.4); border: 1px solid var(--card-border); border-radius: 10px; padding: 1.25rem;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                <h3 style="font-size: 1.1rem; color: #fff;">2. Reflected XSS</h3>
-                <span class="badge badge-warning">High</span>
+        <div style="background: rgba(30, 41, 59, 0.4); border: 1px solid var(--card-border); border-radius: 14px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s ease;" onmouseover="this.style.borderColor='rgba(245, 158, 11, 0.4)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--card-border)'; this.style.transform='translateY(0)'">
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div style="font-size: 1.5rem;">⚡</div>
+                    <span class="badge badge-warning">High</span>
+                </div>
+                <h3 style="font-size: 1.15rem; color: #fff; font-weight: 700; margin-bottom: 0.5rem;">2. Reflected XSS</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.5;">
+                    Inject client-side scripts directly into web responses without sanitization or HTML escaping.
+                </p>
             </div>
-            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem;">
-                Inject client-side scripts into web pages rendered directly without HTML sanitization.
-            </p>
-            <a href="/search" class="btn" style="width: 100%; text-decoration: none; padding: 0.6rem;">Launch Module &rarr;</a>
+            <a href="/search" class="btn" style="width: 100%; text-decoration: none; padding: 0.75rem; background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(245,158,11,0.05)); border: 1px solid rgba(245,158,11,0.3); color: #fbbf24; box-shadow: none;">Launch Module &rarr;</a>
         </div>
 
         <!-- Module 3 -->
-        <div style="background: rgba(31, 41, 55, 0.4); border: 1px solid var(--card-border); border-radius: 10px; padding: 1.25rem;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                <h3 style="font-size: 1.1rem; color: #fff;">3. Command Injection</h3>
-                <span class="badge badge-danger">Critical</span>
+        <div style="background: rgba(30, 41, 59, 0.4); border: 1px solid var(--card-border); border-radius: 14px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s ease;" onmouseover="this.style.borderColor='rgba(239, 68, 68, 0.4)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--card-border)'; this.style.transform='translateY(0)'">
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div style="font-size: 1.5rem;">💻</div>
+                    <span class="badge badge-danger">Critical RCE</span>
+                </div>
+                <h3 style="font-size: 1.15rem; color: #fff; font-weight: 700; margin-bottom: 0.5rem;">3. Command Injection</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.5;">
+                    Execute arbitrary shell commands directly on the host server operating system.
+                </p>
             </div>
-            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem;">
-                Execute arbitrary operating system commands on the host server via unsanitized inputs.
-            </p>
-            <a href="/ping" class="btn" style="width: 100%; text-decoration: none; padding: 0.6rem;">Launch Module &rarr;</a>
+            <a href="/ping" class="btn" style="width: 100%; text-decoration: none; padding: 0.75rem; background: linear-gradient(135deg, rgba(239,68,68,0.2), rgba(239,68,68,0.05)); border: 1px solid rgba(239,68,68,0.3); color: #f87171; box-shadow: none;">Launch Module &rarr;</a>
         </div>
 
         <!-- Module 4 -->
-        <div style="background: rgba(31, 41, 55, 0.4); border: 1px solid var(--card-border); border-radius: 10px; padding: 1.25rem;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                <h3 style="font-size: 1.1rem; color: #fff;">4. IDOR Flaw</h3>
-                <span class="badge badge-info">Medium</span>
+        <div style="background: rgba(30, 41, 59, 0.4); border: 1px solid var(--card-border); border-radius: 14px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s ease;" onmouseover="this.style.borderColor='rgba(59, 130, 246, 0.4)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--card-border)'; this.style.transform='translateY(0)'">
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div style="font-size: 1.5rem;">🆔</div>
+                    <span class="badge badge-info">Medium</span>
+                </div>
+                <h3 style="font-size: 1.15rem; color: #fff; font-weight: 700; margin-bottom: 0.5rem;">4. IDOR Flaw</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.5;">
+                    Manipulate object identifiers in request parameters to access unauthorized user secrets.
+                </p>
             </div>
-            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem;">
-                Access confidential user profile records by manipulating object identifiers in URL queries.
-            </p>
-            <a href="/profile" class="btn" style="width: 100%; text-decoration: none; padding: 0.6rem;">Launch Module &rarr;</a>
+            <a href="/profile" class="btn" style="width: 100%; text-decoration: none; padding: 0.75rem; background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(59,130,246,0.05)); border: 1px solid rgba(59,130,246,0.3); color: #60a5fa; box-shadow: none;">Launch Module &rarr;</a>
         </div>
 
     </div>
