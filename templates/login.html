@@ -3,7 +3,10 @@
 <div class="card" style="max-width: 540px; margin: 0 auto;">
     <div class="card-header">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h2 class="card-title">🔐 Module 1: SQL Injection</h2>
+            <h2 class="card-title">
+                <i class="fa-solid fa-database" style="color: var(--accent-red);"></i>
+                Module 1: SQL Injection
+            </h2>
             <span class="badge badge-danger">Auth Bypass</span>
         </div>
         <p class="card-subtitle">Bypass database authentication without knowing user credentials.</p>
@@ -11,7 +14,7 @@
 
     {% if error %}
         <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); padding: 0.85rem 1rem; border-radius: 8px; color: #f87171; margin-bottom: 1.25rem; font-size: 0.9rem;">
-            <strong>Error:</strong> {{ error }}
+            <i class="fa-solid fa-triangle-exclamation"></i> <strong>Error:</strong> {{ error }}
         </div>
     {% endif %}
 
@@ -24,11 +27,13 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="password" placeholder="Enter password...">
         </div>
-        <button type="submit" class="btn" style="width: 100%; margin-top: 0.5rem;">Attempt Authentication</button>
+        <button type="submit" class="btn" style="width: 100%; margin-top: 0.5rem;">
+            <i class="fa-solid fa-lock-open"></i> Attempt Authentication
+        </button>
     </form>
 
     <div class="hint-box">
-        <h4>💡 Learning Hint & Lab Payload</h4>
+        <h4><i class="fa-solid fa-lightbulb"></i> Learning Hint & Lab Payload</h4>
         <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.5rem;">
             The backend constructs queries via direct string concatenation:
         </p>

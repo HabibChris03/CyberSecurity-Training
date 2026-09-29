@@ -3,7 +3,10 @@
 <div class="card">
     <div class="card-header">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h2 class="card-title">💻 Module 3: Command Injection</h2>
+            <h2 class="card-title">
+                <i class="fa-solid fa-terminal" style="color: var(--accent-red);"></i>
+                Module 3: Command Injection
+            </h2>
             <span class="badge badge-danger">Remote RCE</span>
         </div>
         <p class="card-subtitle">Execute arbitrary system shell commands alongside network diagnostics.</p>
@@ -14,22 +17,22 @@
             <label for="host">Target IP Address or Hostname</label>
             <div style="display: flex; gap: 0.75rem;">
                 <input type="text" id="host" name="host" placeholder="127.0.0.1" style="flex: 1;" required>
-                <button type="submit" class="btn">Run Diagnostic</button>
+                <button type="submit" class="btn"><i class="fa-solid fa-play"></i> Run Diagnostic</button>
             </div>
         </div>
     </form>
 
     {% if output %}
         <div style="margin-top: 1.5rem;">
-            <h3 style="font-size: 0.95rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase;">
-                Diagnostic Output Terminal
+            <h3 style="font-size: 0.88rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase;">
+                <i class="fa-solid fa-laptop-code"></i> Diagnostic Output Terminal
             </h3>
             <pre>{{ output }}</pre>
         </div>
     {% endif %}
 
     <div class="hint-box">
-        <h4>💡 Learning Hint & Lab Payload</h4>
+        <h4><i class="fa-solid fa-lightbulb"></i> Learning Hint & Lab Payload</h4>
         <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.5rem;">
             User input is concatenated directly into system shell calls:
         </p>

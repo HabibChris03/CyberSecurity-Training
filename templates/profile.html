@@ -3,40 +3,48 @@
 <div class="card" style="max-width: 600px; margin: 0 auto;">
     <div class="card-header">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h2 class="card-title">👤 Module 4: Profile Records (IDOR)</h2>
-            <span class="badge badge-info">Broken Authorization</span>
+            <h2 class="card-title">
+                <i class="fa-solid fa-user-shield" style="color: var(--accent-blue);"></i>
+                Module 4: Profile Records (IDOR)
+            </h2>
+            <span class="badge badge-info">Broken Access Control</span>
         </div>
-        <p class="card-subtitle">Test access control checks by modifying parameters in the browser address bar.</p>
+        <p class="card-subtitle">Test authorization enforcement by altering user object IDs in the URL query string.</p>
     </div>
 
     {% if user_data %}
-        <div style="background: rgba(31, 41, 55, 0.5); border: 1px solid var(--card-border); border-radius: 10px; padding: 1.5rem;">
+        <div style="background: rgba(30, 41, 59, 0.5); border: 1px solid var(--card-border); border-radius: 12px; padding: 1.5rem;">
             <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 1rem; margin-bottom: 1rem;">
                 <div>
-                    <h3 style="font-size: 1.2rem; color: #fff;">{{ user_data[1] }}</h3>
+                    <h3 style="font-size: 1.2rem; color: #fff;"><i class="fa-solid fa-user"></i> {{ user_data[1] }}</h3>
                     <span style="font-size: 0.85rem; color: var(--text-muted);">Account ID: #{{ user_data[0] }}</span>
                 </div>
                 <span class="badge badge-info" style="text-transform: capitalize;">{{ user_data[2] }}</span>
             </div>
 
+            <div style="margin-bottom: 1rem;">
+                <span style="font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;"><i class="fa-solid fa-envelope"></i> Email Address:</span>
+                <span style="color: #cbd5e1; font-family: 'Fira Code', monospace; font-size: 0.95rem;">{{ user_data[4] }}</span>
+            </div>
+
             <div>
-                <span style="font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Confidential User Flag / Secret:</span>
-                <div style="background: var(--code-bg); border: 1px solid var(--card-border); padding: 0.75rem 1rem; border-radius: 6px; font-family: 'Fira Code', monospace; color: var(--accent-green); font-size: 0.95rem;">
+                <span style="font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;"><i class="fa-solid fa-key"></i> Confidential User Flag / Secret:</span>
+                <div style="background: var(--code-bg); border: 1px solid var(--card-border); padding: 0.75rem 1rem; border-radius: 8px; font-family: 'Fira Code', monospace; color: var(--accent-green); font-size: 0.95rem;">
                     {{ user_data[3] }}
                 </div>
             </div>
         </div>
     {% else %}
         <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); padding: 1rem; border-radius: 8px; color: #f87171;">
-            User record not found for the specified ID.
+            <i class="fa-solid fa-circle-exclamation"></i> User record not found for the specified ID.
         </div>
     {% endif %}
 
     <div class="hint-box">
-        <h4>💡 Learning Hint & Lab Payload</h4>
+        <h4><i class="fa-solid fa-lightbulb"></i> Learning Hint & Lab Payload</h4>
         <p style="font-size: 0.88rem; color: var(--text-muted);">
             Inspect the current URL in your browser: <code>/profile?user_id=1</code><br>
-            Try modifying <code>user_id=1</code> to <code>user_id=2</code> or <code>user_id=3</code> to access other users' data without permissions.
+            Try modifying <code>user_id=1</code> to <code>user_id=2</code> or <code>user_id=3</code> to access other users' secrets without permission.
         </p>
     </div>
 </div>

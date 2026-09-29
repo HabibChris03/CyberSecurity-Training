@@ -1,7 +1,7 @@
 import os
 import sqlite3
 import subprocess
-from flask import Flask, request, render_template_string, render_template, redirect, url_for, session
+from flask import Flask, request, render_template, redirect, url_for, session, send_file, jsonify
 
 app = Flask(__name__)
 app.secret_key = "super_secret_lab_key"
@@ -9,11 +9,12 @@ app.secret_key = "super_secret_lab_key"
 DB_FILE = "vulnerable_lab.db"
 
 def init_db():
-    """Initializes an in-memory or file-based SQLite database with sample data."""
+    """Initializes SQLite database with sample data and tables."""
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute("DROP TABLE IF EXISTS users")
     cursor.execute("DROP TABLE IF EXISTS products")
+    cursor.execute("DROP TABLE IF EXISTS user_emails")
     
     cursor.execute("""
         CREATE TABLE users (
@@ -21,7 +22,8 @@ def init_db():
             username TEXT,
             password TEXT,
             role TEXT,
-            secret TEXT
+            secret TEXT,
+            email TEXT
         )
     """)
     
@@ -36,24 +38,32 @@ def init_db():
     
     # Insert dummy user records
     cursor.executemany("""
-        INSERT INTO users (username, password, role, secret) VALUES (?, ?, ?, ?)
+        INSERT INTO users (username, password, role, secret, email) VALUES (?, ?, ?, ?, ?)
     """, [
-        ('admin', 'AdminPass2026!', 'administrator', 'FLAG{sql_injection_master}'),
-        ('alice', 'alice123', 'user', 'Alice loves cats'),
-        ('bob', 'password123', 'user', 'Bob secret notes'),
+        ('admin', 'AdminPass2026!', 'administrator', 'FLAG{sql_injection_master}', 'admin@seclab.local'),
+        ('alice', 'alice123', 'user', 'Alice secret notes: FLAG{idor_bypass_pro}', 'alice@seclab.local'),
+        ('bob', 'password123', 'user', 'Bob secret notes: FLAG{privacy_matters}', 'bob@seclab.local'),
     ])
     
     # Insert dummy product records
     cursor.executemany("""
         INSERT INTO products (name, description, price) VALUES (?, ?, ?)
     """, [
-        ('Cyber Shield', 'Ultimate protection hardware', 299.99),
-        ('Hacker Hoodie', 'Comfortable black cotton hoodie', 49.99),
-        ('Security Book', 'Introduction to Ethical Hacking', 25.00),
+        ('Cyber Shield Hardware', 'Enterprise firewall hardware appliance', 499.99),
+        ('Tactical Hacker Hoodie', 'Heavyweight stealth black cotton hoodie', 59.99),
+        ('Web Pentesting Bible', 'Comprehensive guide to ethical hacking', 34.50),
+        ('Encrypted USB Drive', '256-bit AES hardware encrypted storage', 79.99)
     ])
     
     conn.commit()
     conn.close()
+
+    # Create dummy documentation file for LFI lab
+    os.makedirs("docs", exist_ok=True)
+    with open("docs/lab_guide.txt", "w") as f:
+        f.write("Welcome to the Security Lab Guide!\nExplore modules to learn secure coding practices.")
+    with open("docs/confidential_backup.txt", "w") as f:
+        f.write("FLAG{lfi_directory_traversal_found}\nServer Root Backup Config: DB_KEY=super_secret_db_123")
 
 @app.route('/')
 def home():
@@ -71,7 +81,6 @@ def login():
         password = request.form.get('password', '')
         
         # INTENTIONAL VULNERABILITY: Unsafe string formatting allows SQLi
-        # Example payload: ' OR '1'='1
         query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'"
         
         conn = sqlite3.connect(DB_FILE)
@@ -85,6 +94,7 @@ def login():
                 session['username'] = user[1]
                 session['role'] = user[3]
                 session['user_id'] = user[0]
+                session['email'] = user[5]
                 return redirect(url_for('home'))
             else:
                 error = "Invalid credentials!"
@@ -109,17 +119,14 @@ def search():
     if query:
         conn = sqlite3.connect(DB_FILE)
         cursor = conn.cursor()
-        # Parameterized here to prevent SQLi in search, focusing only on XSS
         cursor.execute("SELECT name, description, price FROM products WHERE name LIKE ?", (f"%{query}%",))
         products = cursor.fetchall()
         conn.close()
         
-    # INTENTIONAL VULNERABILITY: Query parameter rendered without HTML escaping
-    # Example payload: <script>alert('XSS Exploit!')</script>
     return render_template('search.html', query=query, products=products)
 
 # ==========================================
-# 3. VULNERABILITY: Command Injection
+# 3. VULNERABILITY: Command Injection (RCE)
 # ==========================================
 @app.route('/ping', methods=['GET', 'POST'])
 def ping():
@@ -127,9 +134,6 @@ def ping():
     if request.method == 'POST':
         target = request.form.get('host', '127.0.0.1')
         
-        # INTENTIONAL VULNERABILITY: Passing unsanitized user input into system shell
-        # Windows payload example: 127.0.0.1 & dir
-        # Linux payload example: 127.0.0.1 ; id
         cmd = f"ping -n 2 {target}" if os.name == 'nt' else f"ping -c 2 {target}"
         
         try:
@@ -150,15 +154,71 @@ def profile():
         
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-    # INTENTIONAL VULNERABILITY: No authorization check to ensure session['user_id'] == user_id
-    cursor.execute("SELECT id, username, role, secret FROM users WHERE id = ?", (user_id,))
+    cursor.execute("SELECT id, username, role, secret, email FROM users WHERE id = ?", (user_id,))
     user_data = cursor.fetchone()
     conn.close()
     
     return render_template('profile.html', user_data=user_data)
 
+# ==========================================
+# 5. VULNERABILITY: Local File Inclusion (LFI / Directory Traversal)
+# ==========================================
+@app.route('/view_doc')
+def view_doc():
+    filename = request.args.get('file', 'lab_guide.txt')
+    filepath = os.path.join("docs", filename)
+    content = ""
+    error = None
+    
+    # INTENTIONAL VULNERABILITY: No path traversal sanitization (e.g. ../../)
+    try:
+        if os.path.exists(filepath):
+            with open(filepath, 'r') as f:
+                content = f.read()
+        else:
+            error = f"File '{filepath}' not found."
+    except Exception as e:
+        error = str(e)
+        
+    return render_template('view_doc.html', filename=filename, content=content, error=error)
+
+# ==========================================
+# 6. VULNERABILITY: Cross-Site Request Forgery (CSRF)
+# ==========================================
+@app.route('/settings', methods=['GET', 'POST'])
+def settings():
+    message = None
+    if request.method == 'POST':
+        new_email = request.form.get('email', '')
+        user_id = session.get('user_id', 1)
+        
+        # INTENTIONAL VULNERABILITY: No CSRF token validation on sensitive action
+        conn = sqlite3.connect(DB_FILE)
+        cursor = conn.cursor()
+        cursor.execute("UPDATE users SET email = ? WHERE id = ?", (new_email, user_id))
+        conn.commit()
+        conn.close()
+        
+        session['email'] = new_email
+        message = f"Profile email successfully updated to: {new_email}"
+        
+    return render_template('settings.html', message=message)
+
+# ==========================================
+# 7. VULNERABILITY: Information Disclosure (Comments / Hidden Endpoints)
+# ==========================================
+@app.route('/api/v1/system_info')
+def system_info():
+    # INTENTIONAL VULNERABILITY: Unauthenticated API exposing sensitive configuration
+    return jsonify({
+        "status": "online",
+        "version": "v2.4.1-debug",
+        "db_engine": "SQLite3",
+        "internal_api_key": "FLAG{info_disclosure_api_leak_9921}",
+        "admin_backup_email": "admin_backup@seclab.local"
+    })
+
 if __name__ == '__main__':
     init_db()
-    print("Starting Vulnerable Web Lab server on http://127.0.0.1:5000")
-    print("WARNING: This server is intentionally insecure. Run only in local, isolated environments.")
+    print("Starting Enhanced Vulnerable Web Lab server on http://127.0.0.1:5000")
     app.run(host='127.0.0.1', port=5000, debug=True)

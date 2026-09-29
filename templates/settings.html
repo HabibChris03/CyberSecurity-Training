@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card" style="max-width: 560px; margin: 0 auto;">
+    <div class="card-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 class="card-title">
+                <i class="fa-solid fa-sliders" style="color: var(--accent-amber);"></i>
+                Module 6: Account Settings (CSRF)
+            </h2>
+            <span class="badge badge-warning">Missing CSRF Token</span>
+        </div>
+        <p class="card-subtitle">Test state-changing requests performed without anti-CSRF token verification.</p>
+    </div>
+
+    {% if message %}
+        <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.85rem 1rem; border-radius: 8px; color: #34d399; margin-bottom: 1.25rem; font-size: 0.9rem;">
+            <i class="fa-solid fa-circle-check"></i> {{ message }}
+        </div>
+    {% endif %}
+
+    <div style="background: rgba(30, 41, 59, 0.5); border: 1px solid var(--card-border); padding: 1.25rem; border-radius: 10px; margin-bottom: 1.5rem;">
+        <span style="font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Current Account Email:</span>
+        <div style="font-family: 'Fira Code', monospace; color: var(--accent-green); font-size: 1rem; font-weight: 600;">
+            {{ session.email or 'admin@seclab.local' }}
+        </div>
+    </div>
+
+    <form method="POST">
+        <div class="form-group">
+            <label for="email">New Email Address</label>
+            <input type="email" id="email" name="email" placeholder="newemail@seclab.local" required>
+        </div>
+        <button type="submit" class="btn" style="width: 100%;">Update Profile Email</button>
+    </form>
+
+    <div class="hint-box">
+        <h4><i class="fa-solid fa-lightbulb"></i> Learning Hint & Lab Concept</h4>
+        <p style="font-size: 0.88rem; color: var(--text-muted);">
+            Notice that this POST form lacks an anti-CSRF token (e.g. <code>csrf_token</code>). An external website visited by an authenticated user could silently submit a forged HTML form to <code>/settings</code> and change the victim's email address.
+        </p>
+    </div>
+</div>
+{% endblock %}

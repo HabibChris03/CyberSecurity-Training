@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cybersecurity Educational Sandbox</title>
+    <title>SecLab &bull; Cyber Security Educational Sandbox</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Vector Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         :root {
-            --bg-color: #060913;
+            --bg-color: #030712;
             --card-bg: rgba(15, 23, 42, 0.75);
             --card-border: rgba(255, 255, 255, 0.08);
-            --card-border-glow: rgba(16, 185, 129, 0.3);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent-green: #10b981;
@@ -35,20 +36,19 @@
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
             background-image: 
-                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.08) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.08) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(139, 92, 246, 0.05) 0px, transparent 70%);
             background-attachment: fixed;
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             line-height: 1.6;
-            overflow-y: scroll;
         }
 
-        /* Subtle Fade In Animation */
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(12px); }
+            from { opacity: 0; transform: translateY(14px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -58,11 +58,11 @@
 
         /* Header Navigation */
         header {
-            background-color: rgba(6, 9, 19, 0.85);
+            background-color: rgba(3, 7, 18, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--card-border);
-            padding: 1rem 2rem;
+            padding: 1rem 2.25rem;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -85,18 +85,19 @@
 
         .brand-icon {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+            width: 42px;
+            height: 42px;
+            border-radius: 11px;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #ffffff;
             font-size: 1.25rem;
             box-shadow: 0 0 20px var(--accent-green-glow);
         }
 
         .brand-title {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 800;
             color: var(--text-main);
             letter-spacing: -0.03em;
@@ -111,20 +112,23 @@
         nav {
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.35rem;
             background: rgba(15, 23, 42, 0.6);
-            padding: 0.35rem;
-            border-radius: 10px;
+            padding: 0.4rem;
+            border-radius: 12px;
             border: 1px solid var(--card-border);
         }
 
         nav a {
             color: var(--text-muted);
             text-decoration: none;
-            padding: 0.5rem 0.9rem;
-            border-radius: 7px;
+            padding: 0.5rem 0.85rem;
+            border-radius: 8px;
             font-weight: 600;
-            font-size: 0.88rem;
+            font-size: 0.86rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
             transition: all 0.2s ease;
         }
 
@@ -133,16 +137,11 @@
             background-color: rgba(255, 255, 255, 0.06);
         }
 
-        nav a.active-link {
-            color: #ffffff;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.05));
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
         nav a.logout-btn {
             color: #f87171;
             background-color: rgba(239, 68, 68, 0.12);
             border: 1px solid rgba(239, 68, 68, 0.25);
+            margin-left: 0.3rem;
         }
 
         nav a.logout-btn:hover {
@@ -151,7 +150,7 @@
 
         /* Layout Container */
         .container {
-            max-width: 980px;
+            max-width: 1040px;
             width: 100%;
             margin: 2.5rem auto;
             padding: 0 1.5rem;
@@ -183,7 +182,6 @@
             padding: 2.25rem;
             box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
             margin-bottom: 1.75rem;
-            transition: border-color 0.3s ease;
         }
 
         .card-header {
@@ -221,7 +219,7 @@
             color: #cbd5e1;
         }
 
-        input[type="text"], input[type="password"] {
+        input[type="text"], input[type="password"], input[type="email"] {
             width: 100%;
             padding: 0.85rem 1.1rem;
             border-radius: 10px;
@@ -233,7 +231,7 @@
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        input[type="text"]:focus, input[type="password"]:focus {
+        input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
             outline: none;
             border-color: var(--accent-green);
             background-color: rgba(30, 41, 59, 0.9);
@@ -272,7 +270,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.35rem;
-            padding: 0.25rem 0.7rem;
+            padding: 0.25rem 0.75rem;
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 700;
@@ -283,6 +281,7 @@
         .badge-danger { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
         .badge-warning { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
         .badge-info { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+        .badge-purple { background: rgba(139, 92, 246, 0.15); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.3); }
 
         /* Code & Pre Blocks */
         pre, code {
@@ -375,26 +374,28 @@
 <body>
     <header>
         <a href="/" class="brand">
-            <div class="brand-icon">🛡️</div>
+            <div class="brand-icon"><i class="fa-solid fa-shield-halved"></i></div>
             <div class="brand-title">SecLab <span>Sandbox</span></div>
         </a>
         <nav>
-            <a href="/">Home</a>
-            <a href="/login">1. SQLi</a>
-            <a href="/search">2. XSS</a>
-            <a href="/ping">3. RCE</a>
-            <a href="/profile">4. IDOR</a>
+            <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="/login"><i class="fa-solid fa-database"></i> SQLi</a>
+            <a href="/search"><i class="fa-solid fa-code"></i> XSS</a>
+            <a href="/ping"><i class="fa-solid fa-terminal"></i> RCE</a>
+            <a href="/profile"><i class="fa-solid fa-user-shield"></i> IDOR</a>
+            <a href="/view_doc"><i class="fa-solid fa-folder-open"></i> LFI</a>
+            <a href="/settings"><i class="fa-solid fa-sliders"></i> CSRF</a>
             {% if session.username %}
-                <a href="/logout" class="logout-btn">Logout ({{ session.username }})</a>
+                <a href="/logout" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout ({{ session.username }})</a>
             {% endif %}
         </nav>
     </header>
 
     <div class="container animate-fade">
         <div class="alert-banner">
-            <span style="font-size: 1.3rem;">⚡</span>
+            <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.25rem;"></i>
             <div>
-                <strong>Cybersecurity Educational Lab:</strong> Intentionally vulnerable application designed for local student practice and security testing.
+                <strong>Cybersecurity Educational Sandbox:</strong> Intentionally vulnerable application designed for local cybersecurity practice and ethical hacking instruction.
             </div>
         </div>
         

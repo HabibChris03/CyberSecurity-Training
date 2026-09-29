@@ -1,0 +1,2 @@
+FLAG{lfi_directory_traversal_found}
+Server Root Backup Config: DB_KEY=super_secret_db_123

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 class="card-title">
+                <i class="fa-solid fa-folder-open" style="color: var(--accent-purple);"></i>
+                Module 5: Local File Inclusion (LFI)
+            </h2>
+            <span class="badge badge-purple">Directory Traversal</span>
+        </div>
+        <p class="card-subtitle">Test how unsanitized file path inputs allow reading confidential system files.</p>
+    </div>
+
+    <form method="GET" style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem;">
+        <input type="text" id="file" name="file" value="{{ filename }}" placeholder="e.g. lab_guide.txt or ../../README.md" style="flex: 1;">
+        <button type="submit" class="btn">Load Document</button>
+    </form>
+
+    {% if error %}
+        <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); padding: 0.85rem 1rem; border-radius: 8px; color: #f87171; margin-bottom: 1.25rem;">
+            <i class="fa-solid fa-circle-exclamation"></i> {{ error }}
+        </div>
+    {% endif %}
+
+    {% if content %}
+        <div style="margin-top: 1rem;">
+            <h3 style="font-size: 0.88rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem;">
+                Document File Contents (<code>docs/{{ filename }}</code>):
+            </h3>
+            <pre>{{ content }}</pre>
+        </div>
+    {% endif %}
+
+    <div class="hint-box">
+        <h4><i class="fa-solid fa-lightbulb"></i> Learning Hint & Lab Payload</h4>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+            Try reading files outside the <code>docs/</code> directory using relative path sequences:
+        </p>
+        <p style="font-size: 0.88rem; color: var(--text-muted);">
+            Payload 1: <code>confidential_backup.txt</code><br>
+            Payload 2: <code>../README.md</code><br>
+            Payload 3: <code>../app.py</code>
+        </p>
+    </div>
+</div>
+{% endblock %}
